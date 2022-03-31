@@ -4,7 +4,7 @@ const Navbar = () => {
   return (
     <nav className="containr mx-auto bg-white border-gray-200 py-2.5 my-2 px-8 md:px-12 lg:px-18 rounded dark:bg-gray-600 shadow-sm">
       <div className="container flex flex-wrap justify-between items-center mx-auto">
-        <h1 className="self-center text-3xl font-bold whitespace-nowrap dark:text-white text-transparent bg-clip-text bg-gradient-to-br from-yellow-600 to-orange-500">
+        <h1 className="self-center text-3xl font-bold whitespace-nowrap dark:text-white text-transparent bg-clip-text bg-gradient-to-br from-yellow-500 to-yellow-500">
           Twingram
         </h1>
 
@@ -23,7 +23,7 @@ const Navbar = () => {
             <li>
               <button
                 type="button"
-                className="text-white bg-skin-button-accent hover:bg-skin-button-accent-hover focus:ring-4 font-medium rounded-lg px-5 py-2"
+                className="text-white bg-skin-button-accent hover:bg-skin-button-accent-hover font-medium rounded-lg px-5 py-2"
               >
                 Sign in
               </button>
