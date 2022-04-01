@@ -5,13 +5,15 @@ const StartPage = () => {
   return (
     <div className="flex flex-col md:flex-row items-start md:items-center max-w-7xl mx-auto">
       <div className="md:mr-8 md:w-1/2 mt-32">
-        <h1 className="text-5xl mb-4">A fun way to capture life moments</h1>
+        <h1 className="text-5xl mb-4">
+          Capture your life moments with Twingram
+        </h1>
         <p className="mb-4 text-lg">
           Welcome to Twingram. A social media platform to like, share and see
           what others are up to. Happy socializing!
         </p>
 
-        <button className="bg-skin-button-accent hover:bg-skin-button-accent-hover px-6 py-3 rounded-md">
+        <button className="bg-skin-button-accent hover:bg-skin-button-accent-hover text-skin-base px-6 py-3 rounded-md shadow transition-all hover:scale-105">
           Join our community
         </button>
       </div>
