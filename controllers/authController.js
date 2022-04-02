@@ -2,6 +2,7 @@ import User from '../models/userModel.js';
 import jwt from 'jsonwebtoken';
 import { StatusCodes } from 'http-status-codes';
 import { sendResponse } from '../utils/sendResponse.js';
+import { BadRequestError, NotFoundError } from '../errors/index.js';
 
 /**
  * @desc    Signup user
@@ -9,36 +10,26 @@ import { sendResponse } from '../utils/sendResponse.js';
  * @access  Public
  */
 const signup = async (req, res) => {
-  try {
-    const { email, password, firstName, lastName, username } = req.body;
+  const { email, password, firstName, lastName, username } = req.body;
 
-    if (!email || !password || !firstName || !lastName || !username) {
-      return res.status(StatusCodes.BAD_REQUEST).json({
-        error: `Please enter all the values`,
-      });
-    }
-
-    const emailExists = await User.findOne({ email });
-    if (emailExists) {
-      return res.status(StatusCodes.BAD_REQUEST).json({
-        error: `User with this email already exists`,
-      });
-    }
-
-    const user = await User.create({
-      email,
-      password,
-      firstName,
-      lastName,
-      username,
-    });
-
-    sendResponse(user, res, StatusCodes.CREATED);
-  } catch (error) {
-    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
-      error,
-    });
+  if (!email || !password || !firstName || !lastName || !username) {
+    throw new BadRequestError(`Please enter all the values`);
   }
+
+  const emailExists = await User.findOne({ email });
+  if (emailExists) {
+    throw new BadRequestError(`User with this email already exists`);
+  }
+
+  const user = await User.create({
+    email,
+    password,
+    firstName,
+    lastName,
+    username,
+  });
+
+  sendResponse(user, res, StatusCodes.CREATED);
 };
 
 /**
@@ -47,34 +38,22 @@ const signup = async (req, res) => {
  * @access  Public
  */
 const signin = async (req, res) => {
-  try {
-    const { email, password } = req.body;
-    if (!email || !password) {
-      return res.status(StatusCodes.BAD_REQUEST).json({
-        error: `Please enter email and password`,
-      });
-    }
-
-    const user = await User.findOne({ email }).select('+password');
-    if (!user) {
-      return res.status(StatusCodes.NOT_FOUND).json({
-        error: `Invalid credentials`,
-      });
-    }
-
-    const isPasswordCorrect = await user.comparePassword(password);
-    if (!isPasswordCorrect) {
-      return res.status(StatusCodes.NOT_FOUND).json({
-        error: `Invalid credentials`,
-      });
-    }
-
-    sendResponse(user, res, StatusCodes.OK);
-  } catch (error) {
-    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
-      error,
-    });
+  const { email, password } = req.body;
+  if (!email || !password) {
+    throw new BadRequestError(`Please enter email and password`);
   }
+
+  const user = await User.findOne({ email }).select('+password');
+  if (!user) {
+    throw new NotFoundError(`Invalid credentials`);
+  }
+
+  const isPasswordCorrect = await user.comparePassword(password);
+  if (!isPasswordCorrect) {
+    throw new NotFoundError(`Invalid credentials`);
+  }
+
+  sendResponse(user, res, StatusCodes.OK);
 };
 
 /**
