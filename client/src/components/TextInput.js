@@ -15,7 +15,7 @@ const TextInput = ({
   setShowPassword,
 }) => {
   return (
-    <div>
+    <div className="mb-3">
       <label htmlFor={name} className="block mb-2 font-medium text-gray-700 ">
         {labelName}
       </label>
@@ -27,7 +27,7 @@ const TextInput = ({
           type={inputType}
           name={name}
           onChange={onChange}
-          className={`px-4 p-2.5 pl-10 outline-none rounded-lg w-full border-2 focus:border-yellow-500 ${
+          className={`px-4 p-2.5 pl-10 outline-none rounded-lg w-full border-2 focus:border-yellow-500 transition duration-400 ${
             error && 'border-red-500'
           }`}
           placeholder={placeholderText}

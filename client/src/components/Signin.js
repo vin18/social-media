@@ -88,7 +88,7 @@ const Signin = () => {
                   />
 
                   <button
-                    className={`bg-skin-button-accent hover:bg-skin-button-accent-hover w-full py-2 rounded-md text-skin-base mt-4 shadow ${
+                    className={`bg-skin-button-accent hover:bg-skin-button-accent-hover w-full py-2.5 rounded-md text-skin-base mt-4 shadow ${
                       (loading || !isValid || !dirty) &&
                       'opacity-70 cursor-not-allowed'
                     }`}
