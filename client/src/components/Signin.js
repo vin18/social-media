@@ -4,12 +4,31 @@ import * as yup from 'yup';
 import { Link } from 'react-router-dom';
 import { HiOutlineMail, HiOutlineKey } from 'react-icons/hi';
 import TextInput from './TextInput';
+import { useMutation } from 'react-query';
+import toast from 'react-hot-toast';
+import { signin } from '../utils/apiClient';
+import { useNavigate } from 'react-router-dom';
 
 const Signin = () => {
   const initialValues = {
     email: '',
     password: '',
   };
+  const navigate = useNavigate();
+
+  const {
+    mutate: handleSignIn,
+    data,
+    isLoading,
+  } = useMutation(signin, {
+    onSuccess: (data) => {
+      toast.success(`User logged in`);
+      navigate(`/profile`);
+    },
+    onError: (error) => {
+      toast.error(error);
+    },
+  });
 
   const [showPassword, setShowPassword] = useState(false);
 
@@ -27,7 +46,7 @@ const Signin = () => {
   });
 
   const handleSubmit = (values) => {
-    console.log('Login', values);
+    handleSignIn(values);
   };
 
   return (
@@ -55,7 +74,6 @@ const Signin = () => {
             values,
             errors,
             setFieldValue,
-            loading,
             isValid,
             dirty,
           }) => {
@@ -89,12 +107,12 @@ const Signin = () => {
 
                   <button
                     className={`bg-skin-button-accent hover:bg-skin-button-accent-hover w-full py-2.5 rounded-md text-skin-base mt-4 shadow ${
-                      (loading || !isValid || !dirty) &&
+                      (isLoading || !isValid || !dirty) &&
                       'opacity-70 cursor-not-allowed'
                     }`}
-                    disabled={loading || !isValid || !dirty}
+                    disabled={isLoading || !isValid || !dirty}
                   >
-                    Continue
+                    {isLoading ? 'Please wait...' : 'Continue'}
                   </button>
 
                   <button className="w-full py-2 rounded-md mt-4 border-2 border-yellow-200 shadow font-bold transition duration-200 hover:scale-105">

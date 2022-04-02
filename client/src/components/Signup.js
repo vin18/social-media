@@ -2,8 +2,12 @@ import { useState } from 'react';
 import { HiOutlineMail, HiOutlineKey, HiOutlineUser } from 'react-icons/hi';
 import { Link } from 'react-router-dom';
 import { Form, Formik } from 'formik';
+import { useMutation } from 'react-query';
 import * as yup from 'yup';
 import TextInput from './TextInput';
+import { signup } from '../utils/apiClient';
+import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 
 const Signup = () => {
   const initialValues = {
@@ -14,7 +18,23 @@ const Signup = () => {
     lastName: '',
   };
 
+  const navigate = useNavigate();
+
   const [showPassword, setShowPassword] = useState(false);
+
+  const {
+    mutate: handleSignup,
+    data,
+    isLoading,
+  } = useMutation(signup, {
+    onSuccess: (data) => {
+      toast.success(`User registered`);
+      navigate(`/profile`);
+    },
+    onError: (error) => {
+      toast.error(error);
+    },
+  });
 
   const registerSchema = yup.object().shape({
     email: yup
@@ -33,7 +53,7 @@ const Signup = () => {
   });
 
   const handleSubmit = (values) => {
-    console.log('Register', values);
+    handleSignup(values);
   };
 
   return (
@@ -127,12 +147,12 @@ const Signup = () => {
 
                 <button
                   className={`bg-skin-button-accent hover:bg-skin-button-accent-hover w-full py-2.5 rounded-md text-skin-base mt-4 shadow ${
-                    (loading || !isValid || !dirty) &&
+                    (isLoading || !isValid || !dirty) &&
                     'opacity-70 cursor-not-allowed'
                   }`}
-                  disabled={loading || !isValid || !dirty}
+                  disabled={isLoading || !isValid || !dirty}
                 >
-                  Create your account
+                  {isLoading ? 'Please wait...' : 'Create your account'}
                 </button>
               </Form>
             );

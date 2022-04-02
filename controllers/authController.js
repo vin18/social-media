@@ -2,7 +2,11 @@ import User from '../models/userModel.js';
 import jwt from 'jsonwebtoken';
 import { StatusCodes } from 'http-status-codes';
 import { sendResponse } from '../utils/sendResponse.js';
-import { BadRequestError, NotFoundError } from '../errors/index.js';
+import {
+  BadRequestError,
+  NotFoundError,
+  UnAuthenticatedError,
+} from '../errors/index.js';
 
 /**
  * @desc    Signup user
@@ -45,12 +49,12 @@ const signin = async (req, res) => {
 
   const user = await User.findOne({ email }).select('+password');
   if (!user) {
-    throw new NotFoundError(`Invalid credentials`);
+    throw new UnAuthenticatedError(`Invalid credentials`);
   }
 
   const isPasswordCorrect = await user.comparePassword(password);
   if (!isPasswordCorrect) {
-    throw new NotFoundError(`Invalid credentials`);
+    throw new UnAuthenticatedError(`Invalid credentials`);
   }
 
   sendResponse(user, res, StatusCodes.OK);
