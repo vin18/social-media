@@ -3,9 +3,11 @@ import jwt from 'jsonwebtoken';
 import { StatusCodes } from 'http-status-codes';
 import { sendResponse } from '../utils/sendResponse.js';
 
-// @desc    Signup user
-// @route   POST /auth/signup
-// @access  Public
+/**
+ * @desc    Signup user
+ * @route   POST /auth/signup
+ * @access  Public
+ */
 const signup = async (req, res) => {
   try {
     const { email, password, firstName, lastName, username } = req.body;
@@ -39,9 +41,11 @@ const signup = async (req, res) => {
   }
 };
 
-// @desc    Signin user
-// @route   POST /auth/signin
-// @access  Public
+/**
+ * @desc    Signin user
+ * @route   POST /auth/signin
+ * @access  Public
+ */
 const signin = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -73,9 +77,11 @@ const signin = async (req, res) => {
   }
 };
 
-// @desc    Logout user
-// @route   GET /auth/logout
-// @access  TODO: Private
+/**
+ * @desc    Logout user
+ * @route   GET /auth/logout
+ * @access  Private
+ */
 const logout = (req, res) => {
   res.cookie('token', null, {
     httpOnly: true,
@@ -84,6 +90,7 @@ const logout = (req, res) => {
 
   res.status(StatusCodes.OK).json({
     user: null,
+    message: `User logged out`,
   });
 };
 
