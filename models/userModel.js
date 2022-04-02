@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import bcrypt from 'bcryptjs';
 
 const userSchema = mongoose.Schema(
   {
@@ -27,12 +28,25 @@ const userSchema = mongoose.Schema(
       required: [true, 'Password is required'],
       maxlength: [60, "Password can't exceed more than 60 characters"],
       minlength: [6, 'Password must be atleast 6 characters'],
+      select: false,
     },
   },
   {
     timestamps: true,
   }
 );
+
+userSchema.pre('save', async function (next) {
+  if (!this.isModified('password')) return;
+
+  this.password = await bcrypt.hash(this.password, 10);
+  next();
+});
+
+userSchema.methods.comparePassword = async function (candidatePassword) {
+  const isMatch = await bcrypt.compare(candidatePassword, this.password);
+  return isMatch;
+};
 
 const User = mongoose.model('User', userSchema);
 export default User;

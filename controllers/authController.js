@@ -1,7 +1,7 @@
 import User from '../models/userModel.js';
 import { StatusCodes } from 'http-status-codes';
 
-// @desc    Register user
+// @desc    Signup user
 // @route   POST /auth/signup
 // @access  Public
 const signup = async (req, res) => {
@@ -29,6 +29,42 @@ const signup = async (req, res) => {
       username,
     });
 
+    res.status(StatusCodes.CREATED).json({
+      user,
+    });
+  } catch (error) {
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      error,
+    });
+  }
+};
+
+// @desc    Signin user
+// @route   POST /auth/signin
+// @access  Public
+const signin = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    if (!email || !password) {
+      return res.status(StatusCodes.BAD_REQUEST).json({
+        error: `Please enter email and password`,
+      });
+    }
+
+    const user = await User.findOne({ email }).select('+password');
+    if (!user) {
+      return res.status(StatusCodes.NOT_FOUND).json({
+        error: `Invalid credentials`,
+      });
+    }
+
+    const isPasswordCorrect = await user.comparePassword(password);
+    if (!isPasswordCorrect) {
+      return res.status(StatusCodes.NOT_FOUND).json({
+        error: `Invalid credentials`,
+      });
+    }
+
     res.status(StatusCodes.OK).json({
       user,
     });
@@ -39,4 +75,4 @@ const signup = async (req, res) => {
   }
 };
 
-export { signup };
+export { signup, signin };
