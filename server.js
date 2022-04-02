@@ -1,6 +1,7 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import colors from 'colors';
+import cookieParser from 'cookie-parser';
 import connectDb from './config/connectDb.js';
 
 import authRoutes from './routes/authRoute.js';
@@ -10,6 +11,7 @@ const app = express();
 
 connectDb();
 app.use(express.json());
+app.use(cookieParser());
 
 app.use(`/auth`, authRoutes);
 

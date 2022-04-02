@@ -1,5 +1,7 @@
 import User from '../models/userModel.js';
+import jwt from 'jsonwebtoken';
 import { StatusCodes } from 'http-status-codes';
+import { sendResponse } from '../utils/sendResponse.js';
 
 // @desc    Signup user
 // @route   POST /auth/signup
@@ -29,9 +31,7 @@ const signup = async (req, res) => {
       username,
     });
 
-    res.status(StatusCodes.CREATED).json({
-      user,
-    });
+    sendResponse(user, res, StatusCodes.CREATED);
   } catch (error) {
     res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
       error,
@@ -65,10 +65,9 @@ const signin = async (req, res) => {
       });
     }
 
-    res.status(StatusCodes.OK).json({
-      user,
-    });
+    sendResponse(user, res, StatusCodes.OK);
   } catch (error) {
+    console.log(error);
     res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
       error,
     });
