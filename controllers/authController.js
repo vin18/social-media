@@ -67,11 +67,24 @@ const signin = async (req, res) => {
 
     sendResponse(user, res, StatusCodes.OK);
   } catch (error) {
-    console.log(error);
     res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
       error,
     });
   }
 };
 
-export { signup, signin };
+// @desc    Logout user
+// @route   GET /auth/logout
+// @access  TODO: Private
+const logout = (req, res) => {
+  res.cookie('token', null, {
+    httpOnly: true,
+    expirs: new Date(Date.now() + 1000),
+  });
+
+  res.status(StatusCodes.OK).json({
+    user: null,
+  });
+};
+
+export { signup, signin, logout };
