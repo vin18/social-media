@@ -66,7 +66,7 @@ const Signin = () => {
                     labelName="Email address"
                     inputType="text"
                     placeholderText="name@example.com"
-                    onChange={handleChange}
+                    handleChange={handleChange}
                     icon={<HiOutlineMail />}
                     name="email"
                     value={values.email}
@@ -75,13 +75,13 @@ const Signin = () => {
 
                   <TextInput
                     labelName="Password"
-                    inputType="password"
+                    inputType={showPassword ? 'text' : 'password'}
                     placeholderText="Your password"
                     icon={<HiOutlineKey />}
                     name="password"
                     value={values.password}
                     error={errors.password}
-                    onChange={handleChange}
+                    handleChange={handleChange}
                     showPassword={showPassword}
                     setShowPassword={setShowPassword}
                     isPasswordInput

@@ -9,7 +9,7 @@ const TextInput = ({
   name,
   value,
   error,
-  onChange,
+  handleChange,
   isPasswordInput = false,
   showPassword,
   setShowPassword,
@@ -26,13 +26,13 @@ const TextInput = ({
         <input
           type={inputType}
           name={name}
-          onChange={onChange}
+          onChange={handleChange}
           className={`px-4 p-2.5 pl-10 outline-none rounded-lg w-full border-2 focus:border-yellow-500 transition duration-400 ${
             error && 'border-red-500'
           }`}
           placeholder={placeholderText}
           value={value}
-          onChange={onChange}
+          onChange={handleChange}
         />
 
         {isPasswordInput && (

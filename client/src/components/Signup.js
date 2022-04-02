@@ -75,7 +75,7 @@ const Signup = () => {
                   name="firstName"
                   value={values.firstName}
                   error={errors.firstName}
-                  onChange={handleChange}
+                  handleChange={handleChange}
                 />
 
                 <TextInput
@@ -86,7 +86,7 @@ const Signup = () => {
                   icon={<HiOutlineUser />}
                   value={values.lastName}
                   error={errors.lastName}
-                  onChange={handleChange}
+                  handleChange={handleChange}
                 />
 
                 <TextInput
@@ -97,7 +97,7 @@ const Signup = () => {
                   icon={<HiOutlineUser />}
                   value={values.username}
                   error={errors.username}
-                  onChange={handleChange}
+                  handleChange={handleChange}
                 />
 
                 <TextInput
@@ -108,18 +108,21 @@ const Signup = () => {
                   icon={<HiOutlineMail />}
                   value={values.email}
                   error={errors.email}
-                  onChange={handleChange}
+                  handleChange={handleChange}
                 />
 
                 <TextInput
                   labelName="Password"
-                  inputType="password"
+                  inputType={showPassword ? 'text' : 'password'}
                   name="password"
                   placeholderText="Your password"
                   icon={<HiOutlineKey />}
                   value={values.password}
                   error={errors.password}
-                  onChange={handleChange}
+                  handleChange={handleChange}
+                  showPassword={showPassword}
+                  setShowPassword={setShowPassword}
+                  isPasswordInput
                 />
 
                 <button
