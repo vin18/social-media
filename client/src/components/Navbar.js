@@ -14,13 +14,13 @@ const Navbar = () => {
         <div className="hidden w-full md:block md:w-auto" id="mobile-menu">
           <ul className="flex items-center flex-col mt-4 md:flex-row md:space-x-8 md:mt-0 md:font-medium">
             <li>
-              <a
-                href="#"
+              <Link
+                to="/signup"
                 className="py-2 pr-4 pl-3 hover:text-yellow-500 rounded md:bg-transparent md:p-0 dark:"
                 aria-current="page"
               >
                 Signup
-              </a>
+              </Link>
             </li>
 
             <li>
